@@ -1,2 +1,2 @@
 # TOTY
-TOTY website
+Toronto Orthodox Tewahedo Youth Fellowship website
