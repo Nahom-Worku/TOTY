@@ -1,0 +1,167 @@
+// Calendar functionality
+let currentDate = new Date();
+let currentMonth = currentDate.getMonth();
+let currentYear = currentDate.getFullYear();
+
+const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+// Sample events data - can be replaced with actual events from backend/API
+const events = [
+    // Example: { date: '2025-11-25', title: 'Youth Fellowship', time: '6:00 PM', description: 'Join us for an evening of fellowship and prayer' }
+];
+
+function renderCalendar(month, year) {
+    const calendarDays = document.getElementById('calendar-days');
+    const monthYearDisplay = document.getElementById('calendar-month-year');
+
+    // Clear previous calendar
+    calendarDays.innerHTML = '';
+
+    // Set month and year display
+    monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+
+    // Get first day of the month (0 = Sunday, 1 = Monday, etc.)
+    const firstDay = new Date(year, month, 1).getDay();
+
+    // Get number of days in the month
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Get number of days in previous month
+    const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+    // Add days from previous month
+    for (let i = firstDay - 1; i >= 0; i--) {
+        const day = daysInPrevMonth - i;
+        const dayDiv = createDayElement(day, 'other-month');
+        calendarDays.appendChild(dayDiv);
+    }
+
+    // Add days of current month
+    const today = new Date();
+    for (let day = 1; day <= daysInMonth; day++) {
+        const isToday = day === today.getDate() &&
+                       month === today.getMonth() &&
+                       year === today.getFullYear();
+
+        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const hasEvent = events.some(event => event.date === dateString);
+
+        const dayDiv = createDayElement(day, isToday ? 'today' : '', hasEvent);
+        calendarDays.appendChild(dayDiv);
+    }
+
+    // Add days from next month
+    const totalCells = calendarDays.children.length;
+    const remainingCells = 42 - totalCells; // 6 rows x 7 days = 42 cells
+    for (let day = 1; day <= remainingCells; day++) {
+        const dayDiv = createDayElement(day, 'other-month');
+        calendarDays.appendChild(dayDiv);
+    }
+}
+
+function createDayElement(day, className = '', hasEvent = false) {
+    const dayDiv = document.createElement('div');
+    dayDiv.className = `calendar-day ${className}`;
+
+    const dayNumber = document.createElement('div');
+    dayNumber.className = 'calendar-day-number';
+    dayNumber.textContent = day;
+    dayDiv.appendChild(dayNumber);
+
+    if (hasEvent) {
+        const eventIndicator = document.createElement('div');
+        eventIndicator.className = 'calendar-day-event';
+        dayDiv.appendChild(eventIndicator);
+    }
+
+    return dayDiv;
+}
+
+function renderUpcomingEvents() {
+    const eventsList = document.getElementById('events-list');
+
+    if (events.length === 0) {
+        // Show "No upcoming events" message
+        eventsList.innerHTML = `
+            <div class="no-events">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="80" height="80">
+                    <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                </svg>
+                <h3>No Upcoming Events</h3>
+                <p>Check back soon for new events and fellowship opportunities!</p>
+            </div>
+        `;
+    } else {
+        // Filter and sort upcoming events
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const upcomingEvents = events
+            .filter(event => new Date(event.date) >= today)
+            .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        if (upcomingEvents.length === 0) {
+            eventsList.innerHTML = `
+                <div class="no-events">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="80" height="80">
+                        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                    </svg>
+                    <h3>No Upcoming Events</h3>
+                    <p>Check back soon for new events and fellowship opportunities!</p>
+                </div>
+            `;
+        } else {
+            eventsList.innerHTML = upcomingEvents.map(event => {
+                const eventDate = new Date(event.date);
+                const day = eventDate.getDate();
+                const month = monthNames[eventDate.getMonth()].substring(0, 3);
+
+                return `
+                    <div class="event-item">
+                        <div class="event-date">
+                            <div class="event-date-day">${day}</div>
+                            <div class="event-date-month">${month}</div>
+                        </div>
+                        <div class="event-details">
+                            <h3>${event.title}</h3>
+                            <p>${event.description}</p>
+                            <div class="event-time">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                ${event.time}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    }
+}
+
+// Navigation buttons
+document.getElementById('prev-month').addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCalendar(currentMonth, currentYear);
+});
+
+document.getElementById('next-month').addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCalendar(currentMonth, currentYear);
+});
+
+// Initial render
+renderCalendar(currentMonth, currentYear);
+renderUpcomingEvents();
