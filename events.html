@@ -63,47 +63,49 @@
     <!-- Calendar Section -->
     <section class="calendar-section">
         <div class="calendar-container">
-            <div class="calendar-header">
-                <button class="calendar-nav-btn" id="prev-month">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24" height="24">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <h2 id="calendar-month-year"></h2>
-                <button class="calendar-nav-btn" id="next-month">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24" height="24">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
-            </div>
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn" id="prev-month">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <h2 id="calendar-month-year"></h2>
+                    <button class="calendar-nav-btn" id="next-month">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
 
-            <div class="calendar-grid">
-                <div class="calendar-day-header">Sun</div>
-                <div class="calendar-day-header">Mon</div>
-                <div class="calendar-day-header">Tue</div>
-                <div class="calendar-day-header">Wed</div>
-                <div class="calendar-day-header">Thu</div>
-                <div class="calendar-day-header">Fri</div>
-                <div class="calendar-day-header">Sat</div>
-                <div id="calendar-days"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Upcoming Events Section -->
-    <section class="upcoming-events-section">
-        <div class="upcoming-events-container">
-            <h2>Upcoming Events</h2>
-            <div id="events-list" class="events-list">
-                <!-- Events will be populated here, or "No upcoming events" message -->
-                <div class="no-events">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="80" height="80">
-                        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
-                    </svg>
-                    <h3>No Upcoming Events</h3>
-                    <p>Check back soon for new events and fellowship opportunities!</p>
+                <div class="calendar-grid">
+                    <div class="calendar-day-header">Su</div>
+                    <div class="calendar-day-header">Mo</div>
+                    <div class="calendar-day-header">Tu</div>
+                    <div class="calendar-day-header">We</div>
+                    <div class="calendar-day-header">Th</div>
+                    <div class="calendar-day-header">Fr</div>
+                    <div class="calendar-day-header">Sa</div>
+                    <div id="calendar-days"></div>
                 </div>
             </div>
+
+            <!-- Upcoming Events Section -->
+            <section class="upcoming-events-section">
+                <div class="upcoming-events-container">
+                    <h2>Upcoming Events</h2>
+                    <div id="events-list" class="events-list">
+                        <!-- Events will be populated here, or "No upcoming events" message -->
+                        <div class="no-events">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="80" height="80">
+                                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                            </svg>
+                            <h3>No Upcoming Events</h3>
+                            <p>Check back soon for new events and fellowship opportunities!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </section>
 

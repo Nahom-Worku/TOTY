@@ -10,7 +10,9 @@ const monthNames = [
 
 // Sample events data - can be replaced with actual events from backend/API
 const events = [
-    // Example: { date: '2025-11-25', title: 'Youth Fellowship', time: '6:00 PM', description: 'Join us for an evening of fellowship and prayer' }
+    { date: '2025-04-26', title: 'Youth Night', description: 'An evening of fellowship, prayer, and discussion.' },
+    { date: '2025-05-11', title: 'Volunteering Day', description: 'Serving our community together' },
+    { date: '2025-06-22', title: 'Annual Conference', description: 'A day of worship, learning, and unity' }
 ];
 
 function renderCalendar(month, year) {
@@ -117,24 +119,15 @@ function renderUpcomingEvents() {
             eventsList.innerHTML = upcomingEvents.map(event => {
                 const eventDate = new Date(event.date);
                 const day = eventDate.getDate();
-                const month = monthNames[eventDate.getMonth()].substring(0, 3);
+                const month = monthNames[eventDate.getMonth()];
+                const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][eventDate.getDay()];
 
                 return `
                     <div class="event-item">
-                        <div class="event-date">
-                            <div class="event-date-day">${day}</div>
-                            <div class="event-date-month">${month}</div>
-                        </div>
+                        <div class="event-date">${dayOfWeek}, ${month} ${day}</div>
                         <div class="event-details">
                             <h3>${event.title}</h3>
                             <p>${event.description}</p>
-                            <div class="event-time">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                ${event.time}
-                            </div>
                         </div>
                     </div>
                 `;
