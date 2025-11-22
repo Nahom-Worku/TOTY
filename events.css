@@ -82,7 +82,7 @@
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem 0;
+    margin-bottom: 0.5rem;
 }
 
 .calendar-day-header {
@@ -91,6 +91,12 @@
     font-weight: 400;
     font-size: 0.875rem;
     color: #888;
+}
+
+.calendar-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem 0;
 }
 
 .calendar-day {

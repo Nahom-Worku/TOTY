@@ -34,11 +34,12 @@ function renderCalendar(month, year) {
     // Get number of days in previous month
     const daysInPrevMonth = new Date(year, month, 0).getDate();
 
+    let dayElements = '';
+
     // Add days from previous month
-    for (let i = firstDay - 1; i >= 0; i--) {
-        const day = daysInPrevMonth - i;
-        const dayDiv = createDayElement(day, 'other-month');
-        calendarDays.appendChild(dayDiv);
+    for (let i = firstDay; i > 0; i--) {
+        const day = daysInPrevMonth - i + 1;
+        dayElements += `<div class="calendar-day other-month"><span class="calendar-day-number">${day}</span></div>`;
     }
 
     // Add days of current month
@@ -51,36 +52,23 @@ function renderCalendar(month, year) {
         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const hasEvent = events.some(event => event.date === dateString);
 
-        const dayDiv = createDayElement(day, isToday ? 'today' : '', hasEvent);
-        calendarDays.appendChild(dayDiv);
+        const todayClass = isToday ? 'today' : '';
+        const eventIndicator = hasEvent ? '<div class="calendar-day-event"></div>' : '';
+
+        dayElements += `<div class="calendar-day ${todayClass}"><span class="calendar-day-number">${day}</span>${eventIndicator}</div>`;
     }
 
-    // Add days from next month
-    const totalCells = calendarDays.children.length;
-    const remainingCells = 42 - totalCells; // 6 rows x 7 days = 42 cells
+    // Add days from next month to complete the grid (6 rows x 7 days = 42 cells)
+    const totalCellsFilled = firstDay + daysInMonth;
+    const remainingCells = 42 - totalCellsFilled;
+
     for (let day = 1; day <= remainingCells; day++) {
-        const dayDiv = createDayElement(day, 'other-month');
-        calendarDays.appendChild(dayDiv);
-    }
-}
-
-function createDayElement(day, className = '', hasEvent = false) {
-    const dayDiv = document.createElement('div');
-    dayDiv.className = `calendar-day ${className}`;
-
-    const dayNumber = document.createElement('div');
-    dayNumber.className = 'calendar-day-number';
-    dayNumber.textContent = day;
-    dayDiv.appendChild(dayNumber);
-
-    if (hasEvent) {
-        const eventIndicator = document.createElement('div');
-        eventIndicator.className = 'calendar-day-event';
-        dayDiv.appendChild(eventIndicator);
+        dayElements += `<div class="calendar-day other-month"><span class="calendar-day-number">${day}</span></div>`;
     }
 
-    return dayDiv;
+    calendarDays.innerHTML = dayElements;
 }
+
 
 function renderUpcomingEvents() {
     const eventsList = document.getElementById('events-list');
